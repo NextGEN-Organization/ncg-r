@@ -1,0 +1,31 @@
+func NLinesInBytes(n int, b *[]byte) {
+	// println("start")
+	// var diff time.Duration
+	// startTime := time.Now()
+	//b := make([]byte, n*lettersPerLinePlusOne)
+	var (
+		idx    int64
+		j      int
+		cache  int64
+		remain int8
+	)
+	for i := 0; i < n; i++ {
+		// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
+		for j, cache, remain = lettersPerLineMinusOne, rand.Int63(), letterIdxMax; j >= 0; {
+			if remain == 0 {
+				cache, remain = rand.Int63(), letterIdxMax
+			}
+			if idx = cache & letterIdxMask; idx < lettersLength {
+				(*b)[j+i*lettersPerLinePlusOne] = letters[idx]
+
+				j--
+			}
+			cache >>= letterIdxBits
+			remain--
+		}
+		(*b)[(i+1)*lettersPerLinePlusOne-1] = newLine
+	}
+	// diff = time.Since(startTime)
+	// println("[END]  ", diff.Milliseconds(), "ms", (diff / numLns / 8).Nanoseconds(), "ns/op", (diff * 10000 / time.Duration(n)), "ns/10000lns")
+	//return b
+}
